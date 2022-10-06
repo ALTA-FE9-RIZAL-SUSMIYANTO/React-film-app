@@ -11,25 +11,26 @@ import Card from "../components/Card";
 class App extends Component {
   // ========= CONSTUCTOR  Start==========
     state = {
-        title: "Welcome",
+        title: "",
         datas: [],
         skeleton: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
         loading: true,
     }
     // ========= CONSTUCTOR End ==========
   componentDidMount () {
-    this.fecthData() ;
+    this.fetchData() ;
   }
 
 
   fetchData() {
     axios
+    // mengambil api dari TMBD
       .get(
         `https://api.themoviedb.org/3/movie/now_playing?api_key=${process.env.REACT_APP_TMBD_KEY}&page=${this.state.page}`
       )
       .then((res) => {
-        const { results } = res.data; // destructuring
-        // const results = res.data.results;
+        const { results } = res.data; 
+        // untuk nenambahkan  page 
         const newPage = this.state.page + 1;
         const temp = [...this.state.datas];
         temp.push(...results);
@@ -60,7 +61,15 @@ class App extends Component {
               
             ))}
               </div>
-              <ButtonSelect label="Load More" onClick={() => this.fetchData()} />
+              <div>
+              <button
+        className="p-3 border rounded-lg bg-white text-black text-center font-bold cursor-pointer"
+        onClick={this.props.onClick}
+      > Load More
+        {this.props.label}
+      </button>
+
+              </div>
             </div>
             
         </Container>
