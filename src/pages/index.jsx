@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { WithRouter } from '../utils/Navigation';
 import "../style/App.css"
 import Container from "../components/Layout"
 import axios  from "axios";
@@ -19,6 +20,7 @@ class App extends Component {
     }
     // ========= CONSTUCTOR End ==========
   componentDidMount () {
+    console.log(this.props)
     this.fetchData() ;
   }
 
@@ -46,6 +48,9 @@ class App extends Component {
       });
   }
 
+
+  // HandleIndex
+
   
 
 
@@ -59,7 +64,10 @@ class App extends Component {
               )) 
             : this.state.datas.map((data) => (
               <Card
-              key={data.id} image={data.poster_path} title={data.title} />
+              key={data.id} image={data.poster_path} title={data.title} onNavigate={() => this.props.navigate(`Detail/${data.id}`)
+            } 
+            addFavorite={()  => console.log("test")} 
+              />
               
             ))}
               </div>
@@ -74,4 +82,4 @@ class App extends Component {
 }
 
 
-export default App;
+export default WithRouter(App);
