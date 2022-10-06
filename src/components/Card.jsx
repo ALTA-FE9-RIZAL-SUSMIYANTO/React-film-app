@@ -12,7 +12,7 @@ class Card extends Component {
       <div className=" bg-stone-300 max-w-sm rounded overflow-hidden shadow-lg border-black">
                 <img className="pr-3 px-3 pt-3 " src={`https://image.tmdb.org/t/p/w500${this.props.image}`} alt={this.props.title} />
                 <p className="text-center pt-2 text-lg font-bold "> {this.props.title}</p>
-                <ButtonSelect/>
+                <ButtonSelect label="Tambah Favorite"/>
       </div>
     )
   }

@@ -15,6 +15,7 @@ class App extends Component {
         datas: [],
         skeleton: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
         loading: true,
+        page : 1
     }
     // ========= CONSTUCTOR End ==========
   componentDidMount () {
@@ -35,6 +36,7 @@ class App extends Component {
         const temp = [...this.state.datas];
         temp.push(...results);
         this.setState({ datas: temp, page: newPage });
+        console.log(res)
       })
       .catch((err) => {
         console.log(err);
@@ -61,15 +63,7 @@ class App extends Component {
               
             ))}
               </div>
-              <div>
-              <button
-        className="p-3 border rounded-lg bg-white text-black text-center font-bold cursor-pointer"
-        onClick={this.props.onClick}
-      > Load More
-        {this.props.label}
-      </button>
-
-              </div>
+              <ButtonSelect label="LoadMore" onClick={() => this.fetchData()} />
             </div>
             
         </Container>
