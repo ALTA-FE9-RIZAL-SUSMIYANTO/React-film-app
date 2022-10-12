@@ -1,0 +1,32 @@
+rce = react class export component
+rcc = react class component
+rfc = react functional component
+rfce = react functional export component
+rafc = react arrow function component
+rafce = react arrow function export component
+
+www.domain.com <~ base url
+/login | /register <~ subdirectory / endpoint
+
+--- Path Parameter ---
+domain.com/movie/{movie_id}
+domain.com/movie/:movie_id
+domain.com/movie/123432
+
+-- Query Parameter ---
+domain.com/list?q=test
+domain.com/list?q=test&filter=asc
+
+HTTP Method
+1. GET (tidak memiliki body) | digunakan untuk mendapatkan/mengambil sebuah record/data
+axios.get(URL, config)
+
+2. POST (memiliki body) | digunakan untuk membuat record, contohnya seperti kita membuat sebuah postingan, login, register
+axios.post(URL, body, config)
+
+3. PUT (memiliki body) | digunakan untuk merubah/mengupdate sebuah record/data, misalnya seperti merubah postingan, mengedit profile
+axios.put(URL, body, config)
+
+4. DELETE (tidak memiliki body) | digunakan untuk menghapus sebuah record/data
+axios.delete(URL, config)
+

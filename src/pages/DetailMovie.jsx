@@ -1,78 +1,46 @@
-import React, { Component } from 'react'
-import axios  from "axios";
-import Container from "../components/Layout"
-import Loading from '../components/Loading'
-import { WithRouter } from '../utils/Navigation'
+import React, { useState, useEffect } from "react";
 
+import { WithRouter } from "utils/Navigation";
+import { useTitle } from "utils/hooks/useTitle";
+import { useFetchGet } from "utils/hooks/useFetchGet";
 
- class DetailMovie extends Component {
+import Container from "components/Layout";
 
-  state ={
-    data: {},
-    Loading: true
-  }
- 
-   
-      componentDidMount (){
-        this.fetchData();
-      }
+const DetailMovie = (props) => {
+  const { id_movie } = props.params;
+  const [data] = useFetchGet(
+    `https://api.themoviedb.org/3/movie/${id_movie}?api_key=${process.env.REACT_APP_TMDB_KEY}&append_to_response=videos`
+  );
+  const [videos, setVideos] = useState([]);
+  useTitle(data.title);
 
+  useEffect(() => {
+    data.videos !== undefined && setVideos(data.videos.results);
+  }, [data]);
 
-      fetchData() {
-        const{id_movie} = this.props.params
-        axios
-          .get(`https://api.themoviedb.org/3/movie/${id_movie}?api_key=${process.env.REACT_APP_TMBD_KEY}`)
-        .then((res) => {
-           const {data} =res;
-          this.setState({data})
-       
-      })
-      .catch((err) => {
-        alert(err.toString())
-      })
-      .finally(() => {this.setState({loading: false})})
-      }
+  return (
+    <Container>
+      <img
+        src={`https://image.tmdb.org/t/p/w500${data?.poster_path}`}
+        alt={props.title}
+      />
+      <p>{data?.title}</p>
+      <p>{data?.overview}</p>
+      <div>
+        {videos.map((video) => (
+          <iframe
+            id={video.id}
+            width="560"
+            height="315"
+            src={`https://www.youtube.com/embed/${video.key}`}
+            title={video.name}
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+          />
+        ))}
+      </div>
+    </Container>
+  );
+};
 
-
-      render() {
-        return (
-        <Container>
-          <div >
-          <div className='flex justify-center p-20 font-bold text-4xl'>
-            Details
-          </div>
-            <div class="flex justify-center p-20">
-                <div class="flex flex-col md:flex-row md:max-w-xl rounded-lg bg-green-600 shadow-lg h-96 ">
-                  <img class=" w-full h-96 md:h-auto object-cover md:w-48 rounded-t-lg md:rounded-none md:rounded-l-lg" src={`https://image.tmdb.org/t/p/w500${this.state.data?.poster_path}`} alt={this.props.title} />
-                  <div class="p-6 flex flex-col justify-center">
-                    <h5 class="text-black text-xl font-medium mb-2">{this.state.data.title}</h5>
-                    <p class="text-white text-base mb-4">
-                      {this.state.data.overview}
-                    </p>
-                    <p class="text-black text-xs">Pupularity : {this.state.data.popularity}</p>
-                  </div>
-                </div>
-              </div>
-        </div>
-          
-
-
-
-
-         
-        </Container> 
-        )
-      }
-}
-
-export default WithRouter (DetailMovie);
-
-
-//  {/* <div className=' flex justify-center p-16'>
-//             <div className='bg-zinc-500 max-w-sm rounded overflow-hidden shadow-lg border-black'>
-
-            
-//             <img src={`https://image.tmdb.org/t/p/w500${this.state.data?.poster_path}`} alt={this.props.title} />
-//             </div>
-//           </div> */}
-      
+export default WithRouter(DetailMovie);
